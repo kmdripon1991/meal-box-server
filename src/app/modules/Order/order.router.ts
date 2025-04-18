@@ -4,10 +4,9 @@ import auth from '../../middlewares/auth';
 
 const router = Router();
 
-
 router.post(
   '/create-order/:id',
-  auth('customer'),
+  auth('customer', 'mealProvider', 'admin'),
   orderController.createOrder,
 );
 router.get('/my-order', auth('customer'), orderController.findMyOrder);
