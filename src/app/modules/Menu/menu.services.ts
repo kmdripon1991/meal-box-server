@@ -48,7 +48,6 @@ const findAllMenuIntoDB = async (
     query,
   )
     .filter()
-    .search(searchableFields)
     .sort()
     .fields()
     .paginate();
