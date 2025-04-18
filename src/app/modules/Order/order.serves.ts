@@ -7,6 +7,7 @@ import AppError from '../../errors/AppError';
 import { sslServices } from '../sslCommeriz/sslCommeriz.servises';
 import { Menu } from '../Menu/menu.model';
 import queryBuilder from '../../builder/queryBuilder';
+import MaleProvider from '../mealProvider/meal.provider.mode';
 
 const createOrderIntoDB = async (
   payload: TOrderMenu,
@@ -22,8 +23,14 @@ const createOrderIntoDB = async (
   if (!existMenu) {
     throw new AppError(status.UNAUTHORIZED, 'Author Id not Authorize');
   }
+  const existShop = await MaleProvider.findOne({
+    authorShopId: existMenu.author_id,
+  });
+  //   @ts-expect-error
+  payload.shopId = existShop?._id;
   payload.authorId = existMenu.author_id;
   //   Calculate the total price into days
+  //
   console.log(payload.orders);
   const totalPrice = payload.orders.reduce((acc, day) => {
     const dayMealsTotal =
@@ -31,6 +38,7 @@ const createOrderIntoDB = async (
     return acc + dayMealsTotal;
   }, 0);
   payload.total_price = totalPrice;
+
   //   transition id
   const digits = Array.from({ length: 20 }, () =>
     Math.floor(Math.random() * 10),
@@ -46,7 +54,7 @@ const createOrderIntoDB = async (
       //  @ts-expect-error: tran_id is not defined in the type but is required for SSL services
       tran_id: bigIntNumber,
     });
-    
+
     result = { paymentUrl: result };
   }
   return result; // Include total price in the response
@@ -60,7 +68,8 @@ const findMyOrderIntoDB = async (
     Order.find({ customerId: user.id })
       .populate('customerId')
       .populate('orderId')
-      .populate('authorId'),
+      .populate('authorId')
+      .populate('shopId'),
     query,
   )
     .sort()
@@ -80,7 +89,8 @@ const MealProviderIntoDB = async (
     Order.find({ authorId: user.id })
       .populate('customerId')
       .populate('orderId')
-      .populate('authorId'),
+      .populate('authorId')
+      .populate('shopId'),
     query,
   )
     .sort()

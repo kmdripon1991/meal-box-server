@@ -9,7 +9,11 @@ router.post(
   auth('customer', 'mealProvider', 'admin'),
   orderController.createOrder,
 );
-router.get('/my-order', auth('customer'), orderController.findMyOrder);
+router.get(
+  '/my-order',
+  auth('customer', 'mealProvider'),
+  orderController.findMyOrder,
+);
 
 router.get(
   '/',
