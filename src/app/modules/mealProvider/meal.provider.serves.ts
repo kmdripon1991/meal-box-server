@@ -14,6 +14,7 @@ const CreateMealProviderIntoDB = async (
   file: any,
   user: JwtPayload,
 ) => {
+  console.log(payload);
   const existId = await MealProvider.findOne({ authorShopId: user?.id });
   if (existId) {
     throw new AppError(501, 'This user already shop create');
