@@ -33,7 +33,10 @@ const CreateMealProviderIntoDB = async (
   return result;
 };
 const GetAllMealProviderIntoDB = async (query: Record<string, unknown>) => {
-  const mealProvider = new queryBuilder(MaleProvider.find(), query);
+  const mealProvider = new queryBuilder(
+    MaleProvider.find().populate('authorShopId'),
+    query,
+  );
   const meta = await mealProvider.countTotal();
   const data = await mealProvider.modelQuery;
 

@@ -3,7 +3,7 @@ import { TMaleProvider } from './meal.provider.interfaces';
 
 const providerSchema = new Schema<TMaleProvider>({
   shopName: { type: String, required: true },
-  authorShopId: { type: String, required: true, unique: true },
+  authorShopId: { type: String, required: true, unique: true, ref: 'User' },
   shopAddress: { type: String, required: true },
   shopLogo: { type: String },
   phoneNumber: { type: String, required: true },
