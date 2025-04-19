@@ -13,7 +13,7 @@ const router = Router();
 router.post(
   '/create-mealProvider',
   auth('customer'),
-  //   ValidateRequest(mealProviderValidation.maleProviderSchema),
+  //   ValidateRequest(mealProviderValidation.MealProviderSchema),
   upload.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data);
@@ -31,7 +31,7 @@ router.get(
 router.put(
   '/update-mealProvider',
   auth('mealProvider'),
-  //   ValidateRequest(mealProviderValidation.maleProviderSchema),
+  //   ValidateRequest(mealProviderValidation.MealProviderSchema),
   upload.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data);

@@ -7,7 +7,7 @@ import AppError from '../../errors/AppError';
 import { sslServices } from '../sslCommeriz/sslCommeriz.servises';
 import { Menu } from '../Menu/menu.model';
 import queryBuilder from '../../builder/queryBuilder';
-import MaleProvider from '../mealProvider/meal.provider.mode';
+import MealProvider from '../mealProvider/meal.provider.mode';
 
 const createOrderIntoDB = async (
   payload: TOrderMenu,
@@ -23,7 +23,7 @@ const createOrderIntoDB = async (
   if (!existMenu) {
     throw new AppError(status.UNAUTHORIZED, 'Author Id not Authorize');
   }
-  const existShop = await MaleProvider.findOne({
+  const existShop = await MealProvider.findOne({
     authorShopId: existMenu.author_id,
   });
   //   @ts-expect-error

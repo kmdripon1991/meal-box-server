@@ -20,7 +20,7 @@ const MenuSchema = new Schema<TMenu>(
     shopId: {
       type: String,
       required: true,
-      ref: 'MaleProvider',
+      ref: 'MealProvider',
     },
   },
   { timestamps: true },

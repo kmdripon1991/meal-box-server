@@ -4,11 +4,11 @@ import { TMenu } from './menu.interface';
 import { Menu } from './menu.model';
 import AppError from '../../errors/AppError';
 import queryBuilder from '../../builder/queryBuilder';
-import MaleProvider from '../mealProvider/meal.provider.mode';
+import MealProvider from '../mealProvider/meal.provider.mode';
 
 const createMenuForDayIntoDB = async (payload: TMenu, user: JwtPayload) => {
   // 1. Check if meal provider exists
-  const mealProvider = await MaleProvider.findOne({
+  const mealProvider = await MealProvider.findOne({
     authorShopId: user.id,
   });
 

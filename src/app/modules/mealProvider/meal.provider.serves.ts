@@ -4,17 +4,17 @@ import AppError from '../../errors/AppError';
 import { sendImageCloudinary } from '../../utils/uploadImageCloudinary';
 import { USER_ROLE } from '../User/user.constant';
 import User from '../User/user.model';
-import { TMaleProvider } from './meal.provider.interfaces';
-import MaleProvider from './meal.provider.mode';
+import { TMealProvider } from './meal.provider.interfaces';
+import MealProvider from './meal.provider.mode';
 
 import { JwtPayload } from 'jsonwebtoken';
 
 const CreateMealProviderIntoDB = async (
-  payload: TMaleProvider,
+  payload: TMealProvider,
   file: any,
   user: JwtPayload,
 ) => {
-  const existId = await MaleProvider.findOne({ authorShopId: user?.id });
+  const existId = await MealProvider.findOne({ authorShopId: user?.id });
   if (existId) {
     throw new AppError(501, 'This user already shop create');
   }
@@ -25,7 +25,7 @@ const CreateMealProviderIntoDB = async (
   payload.authorShopId = user.id;
   //@ts-expect-error url
   payload.shopLogo = shopLogo?.secure_url;
-  const result = await MaleProvider.create(payload);
+  const result = await MealProvider.create(payload);
   await User.findByIdAndUpdate(user.id, {
     role: USER_ROLE.mealProvider,
     isShop: true,
@@ -34,7 +34,7 @@ const CreateMealProviderIntoDB = async (
 };
 const GetAllMealProviderIntoDB = async (query: Record<string, unknown>) => {
   const mealProvider = new queryBuilder(
-    MaleProvider.find().populate('authorShopId'),
+    MealProvider.find().populate('authorShopId'),
     query,
   );
   const meta = await mealProvider.countTotal();
@@ -43,12 +43,12 @@ const GetAllMealProviderIntoDB = async (query: Record<string, unknown>) => {
   return { data, meta };
 };
 const getMyMealProviderIntoDB = async (user: JwtPayload) => {
-  const result = await MaleProvider.findOne({ authorShopId: user.id });
+  const result = await MealProvider.findOne({ authorShopId: user.id });
   return result;
 };
 
 const UpdateMealProviderIntoDB = async (
-  payload: Partial<TMaleProvider>,
+  payload: Partial<TMealProvider>,
   file: any,
   user: JwtPayload,
 ) => {
@@ -64,17 +64,17 @@ const UpdateMealProviderIntoDB = async (
       }
 
       const cloudinaryResult = await sendImageCloudinary(name, path);
-      //@ts-ignore - Ensure TMaleProvider has shopLogo property
+      //@ts-ignore - Ensure TMealProvider has shopLogo property
       if (!cloudinaryResult?.secure_url) {
         throw new Error('Failed to upload image to Cloudinary');
       }
-      //@ts-ignore - Ensure TMaleProvider has shopLogo property
+      //@ts-ignore - Ensure TMealProvider has shopLogo property
       payload.shopLogo = cloudinaryResult.secure_url;
     }
 
     payload.authorShopId = user.id;
 
-    const result = await MaleProvider.findOneAndUpdate(
+    const result = await MealProvider.findOneAndUpdate(
       { authorShopId: user.id },
       payload,
       { new: true },
