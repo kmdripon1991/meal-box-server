@@ -59,7 +59,9 @@ const findAllMenuIntoDB = async (
 //   console.log(payload);
 // };
 const findSingleMenu = async (id: string) => {
-  const result = await Menu.findById(id);
+  const result = await Menu.findById(id)
+    .populate('author_id')
+    .populate('shopId');
   return result;
 };
 
