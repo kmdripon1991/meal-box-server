@@ -1,15 +1,16 @@
-import mongoose, { Schema } from 'mongoose';
-import { TMealProvider } from './mealProvider.interface';
+import { Schema } from "mongoose";
+import { TMealProvider } from "./mealProvider.interface";
 
-const providerSchema = new Schema<TMealProvider>({
+export const providerSchema = new Schema<TMealProvider>({
   shopName: { type: String, required: true },
-  ownerName: { type: String, required: true },
-  authorShopId: { type: String, required: true, unique: true }, //will be added service file
+  authorShopId: { type: String, required: true, unique: true, ref: 'User' },
   shopAddress: { type: String, required: true },
+  shopLogo: { type: String },
   phoneNumber: { type: String, required: true },
-  customerServiceContact: { type: String },
   website: { type: String },
-  establishedYear: { type: Number, required: true }, //will be change here
+  ownerName: { type: String, required: true },
+  customerServiceContact: { type: String },
+  establishedYear: { type: Number, required: true },
   socialMediaLinks: {
     facebook: { type: String },
     instagram: { type: String },
@@ -23,16 +24,5 @@ const providerSchema = new Schema<TMealProvider>({
   },
   paymentMethods: { type: [String], required: true },
   productCategories: { type: [String], required: true },
-  shopLogo: { type: String },
-
-  // rating: { type: Number },
   isActive: { type: Boolean, default: true },
 });
-
-// Create and export the model
-const MealProvider = mongoose.model<TMealProvider>(
-  'MealProvider',
-  providerSchema,
-);
-
-export default MealProvider;

@@ -20,7 +20,11 @@ const operatingHoursSchema = z.object({
 });
 
 // Main TMealProvider Schema
+
+
+
 const mealProviderSchema = z.object({
+
   body: z.object({
     shopName: z.string().min(1, 'Shop name is required'),
     shopAddress: z.string().min(1, 'Shop address is required'),
@@ -41,4 +45,5 @@ const mealProviderSchema = z.object({
   }),
 });
 
-export const mealProviderValidations = { mealProviderSchema };
+
+export const mealProviderValidation = { mealProviderSchema };

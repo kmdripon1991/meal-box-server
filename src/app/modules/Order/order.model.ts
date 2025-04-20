@@ -28,6 +28,7 @@ const OrderSchema = new Schema<TOrderMenu>(
     total_price: { type: Number },
     orderId: { type: String, required: true, ref: 'Menu' },
     authorId: { type: String, required: true, ref: 'User' },
+    shopId: { type: String, required: true, ref: 'MealProvider' },
     orders: { type: [DayMenuSchema] }, // Array of daily menus
     shopId: {
       type: Schema.Types.ObjectId,

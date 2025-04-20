@@ -23,8 +23,14 @@ const createOrderIntoDB = async (
   if (!existMenu) {
     throw new AppError(status.UNAUTHORIZED, 'Author Id not Authorize');
   }
+  const existShop = await MealProvider.findOne({
+    authorShopId: existMenu.author_id,
+  });
+  //   @ts-expect-error
+  payload.shopId = existShop?._id;
   payload.authorId = existMenu.author_id;
   //   Calculate the total price into days
+  //
   console.log(payload.orders);
 
   const existShop = await MealProvider.findOne({
@@ -41,6 +47,7 @@ const createOrderIntoDB = async (
     return acc + dayMealsTotal;
   }, 0);
   payload.total_price = totalPrice;
+
   //   transition id
   const digits = Array.from({ length: 20 }, () =>
     Math.floor(Math.random() * 10),
@@ -70,7 +77,8 @@ const findMyOrderIntoDB = async (
     Order.find({ customerId: user.id })
       .populate('customerId')
       .populate('orderId')
-      .populate('authorId'),
+      .populate('authorId')
+      .populate('shopId'),
     query,
   )
     .sort()
@@ -97,7 +105,8 @@ const MealProviderIntoDB = async (
     Order.find({ authorId: user.id })
       .populate('customerId')
       .populate('orderId')
-      .populate('authorId'),
+      .populate('authorId')
+      .populate('shopId'),
     query,
   )
     .sort()

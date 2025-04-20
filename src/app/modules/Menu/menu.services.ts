@@ -4,6 +4,12 @@ import { TMenu } from './menu.interface';
 import { Menu } from './menu.model';
 import AppError from '../../errors/AppError';
 import queryBuilder from '../../builder/queryBuilder';
+<<<<<<< HEAD
+import MealProvider from '../mealProvider/meal.provider.mode';
+
+const createMenuForDayIntoDB = async (payload: TMenu, user: JwtPayload) => {
+  // 1. Check if meal provider exists
+=======
 
 import MealProvider from '../MealProvider/mealProvider.model';
 
@@ -16,6 +22,7 @@ const createMenuForDayIntoDB = async (
   file: any,
   user: JwtPayload,
 ) => {
+>>>>>>> 4d8fbdfd3cfeb6c353bb9c77cab3efa4ac77be14
   const mealProvider = await MealProvider.findOne({
     authorShopId: user.id,
   });
@@ -60,7 +67,6 @@ const findAllMenuIntoDB = async (
     query,
   )
     .filter()
-    .search(searchableFields)
     .sort()
     .fields()
     .paginate();
@@ -70,7 +76,9 @@ const findAllMenuIntoDB = async (
 };
 
 const findSingleMenu = async (id: string) => {
-  const result = await Menu.findById(id);
+  const result = await Menu.findById(id)
+    .populate('author_id')
+    .populate('shopId');
   return result;
 };
 

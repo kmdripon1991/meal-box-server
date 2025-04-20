@@ -18,6 +18,7 @@ export interface TOrderMenu {
   transactionId: string | number;
   total_price: number;
   orderId: string;
+  shopId: string;
   authorId: string;
   orders: TDayMenu[]; // Array of daily menus
   shopId: Types.ObjectId;
