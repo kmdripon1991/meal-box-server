@@ -7,7 +7,7 @@ import AppError from '../../errors/AppError';
 import { sslServices } from '../sslCommeriz/sslCommeriz.servises';
 import { Menu } from '../Menu/menu.model';
 import queryBuilder from '../../builder/queryBuilder';
-import MealProvider from '../mealProvider/meal.provider.mode';
+import MealProvider from '../MealProvider/mealProvider.model';
 
 const createOrderIntoDB = async (
   payload: TOrderMenu,
@@ -32,6 +32,15 @@ const createOrderIntoDB = async (
   //   Calculate the total price into days
   //
   console.log(payload.orders);
+
+  const existShop = await MealProvider.findOne({
+    authorShopId: existMenu.author_id,
+  });
+  
+  if (!existShop) {
+    throw new AppError(status.NOT_FOUND, 'Shop not found');
+  }
+  payload.shopId = existShop._id;
   const totalPrice = payload.orders.reduce((acc, day) => {
     const dayMealsTotal =
       day.meals?.reduce((mealAcc, meal) => mealAcc + (meal.price || 0), 0) || 0;
@@ -81,6 +90,13 @@ const findMyOrderIntoDB = async (
   return { meta, data };
 };
 
+const getSingleOrderFromDB = async (userInfo: JwtPayload, orderId: string) => {
+  console.log(userInfo, orderId);
+  const res = await Order.findOne({ _id: orderId });
+  console.log(res);
+  return res;
+};
+
 const MealProviderIntoDB = async (
   user: JwtPayload,
   query: Record<string, unknown>,
@@ -106,4 +122,5 @@ export const orderServes = {
   createOrderIntoDB,
   findMyOrderIntoDB,
   MealProviderIntoDB,
+  getSingleOrderFromDB,
 };

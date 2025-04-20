@@ -30,6 +30,11 @@ const OrderSchema = new Schema<TOrderMenu>(
     authorId: { type: String, required: true, ref: 'User' },
     shopId: { type: String, required: true, ref: 'MealProvider' },
     orders: { type: [DayMenuSchema] }, // Array of daily menus
+    shopId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'MealProvider',
+    },
   },
   { timestamps: true },
 );

@@ -20,11 +20,14 @@ const operatingHoursSchema = z.object({
 });
 
 // Main TMealProvider Schema
-const MealProviderSchema = z.object({
+
+
+
+const mealProviderSchema = z.object({
+
   body: z.object({
     shopName: z.string().min(1, 'Shop name is required'),
     shopAddress: z.string().min(1, 'Shop address is required'),
-    authorShopId: z.string().min(1, 'Author shop ID is required'),
     shopLogo: z.string().url().optional(),
     phoneNumber: z.string().min(10, 'Phone number is required'),
     website: z.string().url().optional(),
@@ -34,8 +37,6 @@ const MealProviderSchema = z.object({
       .array(z.string().min(1))
       .nonempty('At least one category is required'),
     socialMediaLinks: socialMediaLinksSchema,
-    rating: z.number().min(0).max(5).optional(),
-    isActive: z.boolean(),
     operatingHours: operatingHoursSchema,
     paymentMethods: z
       .array(z.string().min(1))
@@ -44,4 +45,5 @@ const MealProviderSchema = z.object({
   }),
 });
 
-export const mealProviderValidation = { MealProviderSchema };
+
+export const mealProviderValidation = { mealProviderSchema };
